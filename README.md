@@ -47,18 +47,3 @@ let convertedPrice = (price * rates[currency]).toLocaleString(undefined, {
 2. **Open the project:**
    Simply open index.html in any modern web browser. No build steps or dependencies required!
 
-### Refactor Journey
-
-This project evolved through several distinct stages of software maturation:
-
-- V1: Basic Flexbox layout with hardcoded values
-  - Initial proof of concept focused on basic layout.
-
-- V2: Introduction of CSS Variables and Semantic HTML
-  - Refactored for maintainability and accessibility (a11y).
-
-- V3: Data-driven rendering to eliminate "DRY" code smells
-  - Moved content into JavaScript objects to automate HTML generation.
-
-- V4: Implementation of API integration and Dark Mode
-  - Added real-world functionality with live currency rates and user theme persistence.
