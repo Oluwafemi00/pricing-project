@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live Global Pricing</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Reuse previous sleek styles... */
+      :root {
+        --brand: #10b981;
+        --bg: #f8fafc;
+        --card: #ffffff;
+        --text: #1e293b;
+      }
+      [data-theme="dark"] {
+        --bg: #0f172a;
+        --card: #1e293b;
+        --text: #f1f5f9;
+      }
+
+      body {
+        font-family: "Sono", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        padding: 2rem;
+        transition: 0.3s;
+      }
+      .pricing-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+      .pricing-plan {
+        background: var(--card);
+        padding: 2rem;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Loading Animation */
+      .loading {
+        opacity: 0.5;
+        pointer-events: none;
+        filter: blur(2px);
+        transition: 0.3s;
+      }
+
+      .header {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 40px;
+        align-items: center;
+      }
+      select,
+      button {
+        padding: 8px 16px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        background: var(--card);
+        color: var(--text);
+      }
+    </style>
+  </head>
+  <body data-theme="light">
+    <div class="header">
+      <select id="currency-select">
+        <option value="USD">USD ($)</option>
+        <option value="EUR">EUR (€)</option>
+        <option value="GBP">GBP (£)</option>
+        <option value="JPY">JPY (¥)</option>
+      </select>
+
+      <label
+        ><input type="checkbox" id="billing-checkbox" /> Yearly (-20%)</label
+      >
+      <button
+        onclick="
+          document.body.dataset.theme =
+            document.body.dataset.theme === 'light' ? 'dark' : 'light'
+        "
+      >
+        🌓
+      </button>
+    </div>
+
+    <main class="pricing-container" id="pricing-wrapper"></main>
+
+    <script>
+      // 1. Initial State
+      let rates = { EUR: 0.92, GBP: 0.78, JPY: 150, USD: 1 };
+      const plans = [
+        { name: "Starter", usd: 10 },
+        { name: "Pro", usd: 30 },
+        { name: "Expert", usd: 100 },
+      ];
+
+      // 2. Fetch Live Rates
+      async function updateRates() {
+        try {
+          const res = await fetch(
+            "https://api.frankfurter.dev/v1/latest?base=USD",
+          );
+          const data = await res.json();
+          rates = { ...rates, ...data.rates };
+          console.log("Rates updated live:", rates);
+          render();
+        } catch (err) {
+          console.warn("API failed, using fallback rates.", err);
+          render();
+        }
+      }
+
+      // 3. Render Logic
+      function render() {
+        const container = document.getElementById("pricing-wrapper");
+        const currency = document.getElementById("currency-select").value;
+        const isYearly = document.getElementById("billing-checkbox").checked;
+
+        container.innerHTML = plans
+          .map((plan) => {
+            let price = isYearly ? plan.usd * 0.8 : plan.usd;
+            let convertedPrice = (
+              price * (rates[currency] || 1)
+            ).toLocaleString(undefined, {
+              style: "currency",
+              currency: currency,
+            });
+
+            return `
+          <section class="pricing-plan">
+            <h3>${plan.name}</h3>
+            <div style="font-size: 2.5rem; font-weight: bold; margin: 15px 0;">${convertedPrice}</div>
+            <p>${isYearly ? "Billed annually" : "Billed monthly"}</p>
+            <button style="width:100%; padding:10px; background:var(--brand); color:white; border:none; border-radius:5px;">Select</button>
+          </section>
+        `;
+          })
+          .join("");
+      }
+
+      // 4. Listeners
+      document
+        .getElementById("currency-select")
+        .addEventListener("change", render);
+      document
+        .getElementById("billing-checkbox")
+        .addEventListener("change", render);
+
+      // Initial Kickoff
+      updateRates();
+    </script>
+  </body>
+</html>
