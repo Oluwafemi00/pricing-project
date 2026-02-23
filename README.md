@@ -33,7 +33,7 @@ let convertedPrice = (price * rates[currency]).toLocaleString(undefined, {
   style: 'currency',
   currency: currency
 });
-
+````
 
 ### 📦Installation & Usage
 
