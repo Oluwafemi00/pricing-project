@@ -39,9 +39,9 @@ let convertedPrice = (price * rates[currency]).toLocaleString(undefined, {
 
 1. **Clone the repository:**
 
-   ```bash
+   ````bash
    git clone https://github.com/oluwafemi00/Pricing-project.git
-```
+    ````
 
 
 2. **Open the project:**
