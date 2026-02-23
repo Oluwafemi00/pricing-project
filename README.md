@@ -62,4 +62,3 @@ This project evolved through several distinct stages of software maturation:
 
 - V4: Implementation of API integration and Dark Mode
   - Added real-world functionality with live currency rates and user theme persistence.
-````
