@@ -1,8 +1,8 @@
-# Sleek Dynamic Pricing App 💎
+# Sleek Dynamic Pricing App
 
 A high-performance, responsive pricing table component designed with modern UI/UX principles. This project demonstrates a transition from static "spaghetti" code to a modular, data-driven architecture.
 
-## 🌟 Features
+## Features
 
 - **Live Currency Conversion**: Integrates with the [Frankfurter API](https://www.frankfurter.dev/) to fetch real-time exchange rates for USD, EUR, GBP, and JPY.
 - **Dynamic Billing Logic**: Toggle between monthly and yearly billing with an automatic 20% discount calculation.
@@ -10,13 +10,13 @@ A high-performance, responsive pricing table component designed with modern UI/U
 - **Responsive & Sleek UI**: Built using CSS Grid and Glassmorphism effects. Fully responsive from mobile to ultra-wide displays.
 - **Semantic & Accessible**: Uses HTML5 tags (`<main>`, `<section>`, `<label>`) for better SEO and screen-reader support.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **HTML5**: Semantic structure.
 - **CSS3**: Custom properties (variables), Grid, Flexbox, and Glassmorphism.
 - **JavaScript (ES6+)**: Async/Await for API calls, DOM manipulation, and state management.
 
-## 🚀 How It Works
+## How It Works
 
 ### Data-Driven Rendering
 
@@ -26,24 +26,22 @@ The app separates content from logic. Pricing plans are stored in a JavaScript o
 
 The app uses the `Intl.NumberFormat` API to ensure that currency symbols and decimal places are formatted correctly according to international standards.
 
-````javascript
+```javascript
 // Example of the live conversion logic
-let price = isYearly ? (plan.usd * 0.8) : plan.usd;
+let price = isYearly ? plan.usd * 0.8 : plan.usd;
 let convertedPrice = (price * rates[currency]).toLocaleString(undefined, {
-  style: 'currency',
-  currency: currency
+  style: "currency",
+  currency: currency,
 });
-````
+```
 
-### 📦Installation & Usage
+### Installation & Usage
 
 1. **Clone the repository:**
 
-   ````bash
+   ```bash
    git clone https://github.com/oluwafemi00/Pricing-project.git
-    ````
-
+   ```
 
 2. **Open the project:**
    Simply open index.html in any modern web browser. No build steps or dependencies required!
-
